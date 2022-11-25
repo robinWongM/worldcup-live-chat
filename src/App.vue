@@ -13,9 +13,9 @@ const setDanmakuEnabled = (value: boolean) => isDanmakuEnabled.value = value;
   <div class="flex flex-col h-full lg:flex-row">
     <div class="flex-0 lg:flex-1 flex flex-col lg:flex-col-reverse">
       <Header></Header>
-      <Player :isDanmakuEnabled="isDanmakuEnabled"></Player>
+      <Player></Player>
     </div>
-    <Chat :isDanmakuEnabled="isDanmakuEnabled" @setDanmakuEnabled="setDanmakuEnabled" />
+    <Chat />
   </div>
 </template>
 
