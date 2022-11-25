@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@soerenmartius/vue3-clipboard": "^0.1.2",
     "daisyui": "^2.42.0",
     "dayjs": "^1.11.6",
     "dplayer": "^1.27.0",
@@ -18,12 +19,15 @@
     "vue": "^3.2.41"
   },
   "devDependencies": {
+    "@iconify-json/icon-park": "^1.1.7",
+    "@iconify-json/icon-park-outline": "^1.1.7",
     "@types/dplayer": "^1.25.2",
     "@vitejs/plugin-vue": "^3.2.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.4",
     "typescript": "^4.6.4",
+    "unplugin-icons": "^0.14.14",
     "vite": "^3.2.3",
     "vue-tsc": "^1.0.9"
   }

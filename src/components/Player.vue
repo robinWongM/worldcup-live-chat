@@ -3,16 +3,18 @@ import mpegts from 'mpegts.js';
 import DPlayer from 'dplayer';
 import { onMounted, onUnmounted, ref } from 'vue';
 
+import { registerDPlayer } from '../libs/danmaku'; 
+
 const container = ref<HTMLElement | null>(null);
 let playerInstance: DPlayer | null = null;
 
 onMounted(() => {
   const flvSource = {
-    url: 'http://222.200.191.10/live/livestream.flv',
+    url: '/live/livestream.flv',
     type: 'mpegts',
   };
   const hlsSource = {
-    url: 'http://222.200.191.10/live/livestream.m3u8',  
+    url: '/live/livestream.m3u8',  
     type: 'normal',
   };
 
@@ -43,6 +45,8 @@ onMounted(() => {
     },
     live: true,
   });
+
+  registerDPlayer(playerInstance);
 });
 
 onUnmounted(() => playerInstance?.destroy());

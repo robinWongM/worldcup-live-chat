@@ -1,23 +1,10 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from 'vue';
 import { pb } from '../libs/backend';
+import { useDanmaku } from '../libs/danmaku';
 import dayjs from 'dayjs';
 
-interface MessagePacket {
-  id: string;
-  content: string;
-  nickname: string;
-  ipHash: string;
-  created: string;
-}
-
-const messages = ref<MessagePacket[]>([]);
 const chatContainer = ref<HTMLElement | null>(null);
-
-const nickname = ref('');
-const toBeSetNickname = ref('');
-const toBeSentMessage = ref('');
-
 const scrollToBottom = () => {
   nextTick(() => {
     if (chatContainer.value) {
@@ -26,21 +13,11 @@ const scrollToBottom = () => {
   });
 }
 
-onMounted(() => {
-  pb.collection('messages').getList<MessagePacket>(1, 100, {
-    sort: '-created',
-  }).then(result => {
-    messages.value.push(...result.items.reverse());
-    scrollToBottom();
-  });
+const { messages, isDanmakuEnabled, setDanmakuEnabled } = useDanmaku(scrollToBottom);
 
-  pb.collection('messages').subscribe<MessagePacket>('*', (e) => {
-    if (e.action === 'create') {
-      messages.value.push(e.record);
-      scrollToBottom();
-    }
-  });
-});
+const nickname = ref('');
+const toBeSetNickname = ref('');
+const toBeSentMessage = ref('');
 
 const send = () => {
   if (nickname.value.trim() === '') {
@@ -83,13 +60,13 @@ const formatDate = (str: string) => dayjs(str).format('HH:mm:ss');
     </div>
     <div class="form-control">
       <div class="text-sm mb-2">
-        <span v-if="nickname">
+        <span v-if="nickname" class="mr-2">
           你的昵称：{{ nickname }}
         </span>
         <label for="nickname-modal" class="btn btn-sm">{{ nickname ? '更改' : '请先点此设置昵称' }}</label>
       </div>
       <div class="input-group">
-        <input type="text" placeholder="输入弹幕" class="input w-full" v-model="toBeSentMessage" @keypress.enter="send" />
+        <input type="text" placeholder="友善评论，文明发言" class="input w-full" v-model="toBeSentMessage" @keypress.enter="send" />
         <button class="btn btn-square w-16" @click="send">
           发送
         </button>
